@@ -1,7 +1,10 @@
 import React from "react";
 import {Table} from 'react-bootstrap';
-import {connect} from 'react-redux'; 
+import {connect, useSelector, useDispatch } from 'react-redux'; 
 function Cart(props){
+    let state = useSelector((state)=>state);
+    let dispatch = useDispatch();
+    console.log(state.reducer);
     return(
         <div>
             <Table striped bordered hover>
@@ -19,15 +22,24 @@ function Cart(props){
                     // ***reducer는 그냥 function으로 시작하는 흔히 보는 함수인데, 안에 1. state 초기값 / 2. state 데이터 수정방법이 잔뜩 들어있는 함수라고 생각하면 된다. 
                 */}
 
-                {props.realState.map((a,i)=>{
+                {/*   {props.realState.map((a,i)=>{   */}
+                {state.reducer.map((a,i)=>{
                     return(
                     <tr key={i}>
                     <td>{a.id}</td>
                     <td>{a.name}</td>
                     <td>{a.quan}</td>
                     <td>
+                        {/*
+                        
                         <button onClick={()=>{ props.dispatch({type:'수량증가', payload:a.id})}}> + </button>
                         <button onClick={()=>{ props.dispatch({type:'수량감소', payload:a.id})}}> - </button>
+                        useDispatch를 사용하여 props.dispatch() 대신 dispatch 사용 
+                        */}
+                        
+                        <button onClick={()=>{ dispatch({type:'수량증가', payload:a.id})}}> + </button>
+                        <button onClick={()=>{ dispatch({type:'수량감소', payload:a.id})}}> - </button>
+
                     </td>
                     {/* 데이터 수정방법을 정의한 후 이렇게 dispatch함수를 써서 reducer를 동작시킨다. 이렇게 하면 버튼을 누를 때 마다 '수량증가' 라고 작명해놓은 state 수정방법이 동작한다. */}
                     </tr>
@@ -55,12 +67,6 @@ function Cart(props){
 // 이제 Cart.js에서 realState라고 이름 붙인 애를 출력해보면 index.js에서 저장한 state가 출력된다. 또는 realState : state.name 처럼 원하는 값만 뽑아서 쓸 수도 있음. 
 //2. export default 하는 부분에  connect()~ 를 쓴다(connect는 import 해서 사용). 그냥 리액트-리덕스 라이브러리 사용법임. 
 
-function stateToProps(state){
-    return{
-        realState : state.reducer,
-        alertState : state.reducer2
-    }
-}
 
 //리덕스 사용법 총 정리
 // redux는 props 전송이 귀찮을 때 사용한다. 
@@ -82,5 +88,13 @@ function stateToProps(state){
 // 세팅 과정은 까다롭지만 한 번 세팅하고 나면 세팅 완료 된 모든 컴포넌트는 redux 내의 state를 자유롭게 사용이 가능하다. 
 
 
+// function stateToProps(state){
+//     return{
+//         realState : state.reducer,
+//         alertState : state.reducer2
+//     }
+// }
+//export default connect(stateToProps)(Cart);
+// ㄴ 얘를 지우고 이거랑 같은 기능을 하는 useSelector Hook을 사용해 볼 것. 
 
-export default connect(stateToProps)(Cart);
+export default Cart;

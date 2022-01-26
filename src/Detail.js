@@ -1,6 +1,7 @@
 import React from "react";
 import {useHistory} from 'react-router-dom';
 import  {Card, Link} from 'react-bootstrap';
+import './Detail.scss';
 function Detail(props){
     let history = useHistory();
     return(
@@ -15,7 +16,7 @@ function Detail(props){
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">{props.flower.price}</small>
-            <button className="baseBtn">주문하기</button> 
+            <button className="baseBtn red">주문하기</button> 
             <button onClick={()=>{history.goBack()}} className="baseBtn">뒤로가기</button> 
             {/* 다른 페이지로 이동 시키고 싶으면 history.push('/원하는경로')로도 활용 가능하다. */}
           </Card.Footer>

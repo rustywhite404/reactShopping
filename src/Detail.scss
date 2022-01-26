@@ -1,0 +1,32 @@
+/* SASS 문법을 쓰는 이유
+1. 변수 사용이 가능하다. 
+*/
+
+$mainColor : #e99090;
+
+.red{
+    color:$mainColor;
+}
+
+/* 이렇게 변수를 만들어서 원하는 곳에서 사용 가능함.
+색상 뿐만 아니라 PX값, %값 등 별 걸 다 집어넣을 수 있다. 
+*/
+
+div.container h4{
+    color: blue;
+}
+div.container p{
+    color: green;
+}
+
+/* 
+이런 긴 셀렉터를 아래와 같이 쓸 수도 있다. (nesting 문법)
+*/
+div.container{
+    h3{
+        color:blue;
+    }
+    span{
+        color:blueviolet;
+    }
+}

@@ -1,11 +1,11 @@
 import React from "react";
 import {useHistory} from 'react-router-dom';
-import  {Card, Link} from 'react-bootstrap';
+import  {Card, Link, Row, Col} from 'react-bootstrap';
 import './Detail.scss';
 function Detail(props){
     let history = useHistory();
     return(
-
+        <Col>
         <Card>
           <Card.Link href={'/detail/'+props.i}><Card.Img variant="top" src={require('./flower'+(props.i)+'.jpg')} /></Card.Link>
           <Card.Body>
@@ -21,6 +21,7 @@ function Detail(props){
             {/* 다른 페이지로 이동 시키고 싶으면 history.push('/원하는경로')로도 활용 가능하다. */}
           </Card.Footer>
         </Card>
+        </Col>
 
   )
 }

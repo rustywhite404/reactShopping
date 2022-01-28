@@ -1,15 +1,23 @@
 import logo from './logo.svg';
-import React, { useState } from 'react';
-import  {Navbar,Container,Nav,NavDropdown,CardGroup, Card,Carousel, Accordion} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import  {Navbar,Container,Nav,NavDropdown,CardGroup, Card,Carousel, Accordion,Row} from 'react-bootstrap';
 import './App.css';
 import objectArray from './data.js';
 import mainData from './mainData.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail';
 import Product from './Product';
+import axios from 'axios';
+import {useHistory} from 'react-router-dom';
+
 function App() {
+  let history = useHistory();
   let [flower, changeFlower] = useState(objectArray);
   let [mainContent, changeMainContent] = useState(mainData);
+  let [stock, changeStock] = useState([10,148,5]);
+  // useEffect(()=>{
+  //   axios.get().then().catch(); /* 페이지를 실행 하자마자 ajax를 실행시키곡 싶다면 useEffect를 활용하면 된다. */
+  // },[]); /* []는 useEffect 할 때 배웠듯이 최초 로드 시에만 실행되도록 해 주는 빈 값. */
   return (
     
     <div className="App">
@@ -64,22 +72,56 @@ function App() {
           }
         </Accordion>
       </Route>
-
+        
+      
       <Route exact path="/detail">
-
-        <CardGroup>
+      <Row xs={2} md={3}>
           {
           flower.map((a,i)=>{
               return <Detail flower={flower[i]} i={i} key={i} />
           }) 
           }
-        </CardGroup>
+      </Row>
+      
 
+      <button className="baseBtn mgt20 mgb20" onClick={()=>{
+          axios.get('https://codingapple1.github.io/shop/data2.json')
+          .then((result)=>{ 
+            /* 성공 시 실행할 코드. then 안의 콜백함수 안 파라미터 = 받아온 데이터 */             
+            // let addProduct = [...flower];
+            // let add2 = [...result.data];
+            // addProduct.push(...add2);
+            // changeFlower(addProduct);
+            // ㄴ 기존에 배운 이 방법(배열 복사해서 추가)으로도 할 수 있지만 아래처럼 ES6 문법으로 배열 두개를 간단히 합칠 수 있다. 
+            // changeFlower([...flower, ...result.data]);
+            let num1 = 0;
+            let num2 = 1;
+            let addArray = result.data.slice(num1,num2);          
+            changeFlower([...flower, ...addArray]); // 더보기를 누르면 1개씩 더 보여주기
+            num1 ++;
+            num2 ++;
+
+          })
+          .catch(()=>{/*실패 시 실행할 코드*/
+
+            alert("메인으로 돌아갑니다.");
+            history.goBack();
+          })
+        }}>더보기</button>
+
+
+        {/* POST 요청은  
+
+          axios.post('https://codingapple1.github.io/shop/data2.json', { id : 'test', pw : 1234})
+          .then((result)=>{  })
+          .catch(()=>{ })
+        이런 식으로 사용하면 되고, URL 옆에 원하는 데이터를 키-값으로 넣어주면 전송해서 쓸 수 있다. 
+        */}
       </Route>
 
       <Route path="/detail/:id">
 
-       <Product flower={flower} />
+       <Product flower={flower} stock={stock} changeStock ={changeStock}/>
 
       </Route>
 

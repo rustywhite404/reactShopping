@@ -89,10 +89,16 @@ function Product(props){
                     <Subject coloring={'dimgrey'}>{findProduct.content}</Subject>
                     {/* 위에서 만들어놓은 props.coloring을 이런식으로 사용할 수 있다. */}                
                 </Card.Text>
-                {inputData}
-                <input onChange={(e)=>{changeInputData(e.target.value)}} />
+                {inputData} 
+                <Info stock={props.stock} num={id}></Info>
+                {/*
+                <input onChange={(e)=>{changeInputData(e.target.value)}} /> 
+                */}
                 <Button onClick={()=>{history.push('/detail')}} variant="primary">뒤로가기</Button>
-
+                <Button onClick={()=>{
+                    let exList = [...props.stock];
+                    exList[id] = props.stock[id]-1;      
+                    props.changeStock(exList)}}>주문하기</Button>
                 
                 { 
                     alert === true ? (
@@ -103,10 +109,16 @@ function Product(props){
                 }
             </Box>
         </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
+        <Card.Footer className="text-muted">{id} 2 days ago</Card.Footer>
         </Card>        
 
 
+    )
+}
+
+function Info(props){
+    return(
+        <p>재고: {props.stock[props.num]}</p>
     )
 }
 export default Product

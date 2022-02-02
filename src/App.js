@@ -15,6 +15,7 @@ function App() {
   let [flower, changeFlower] = useState(objectArray);
   let [mainContent, changeMainContent] = useState(mainData);
   let [stock, changeStock] = useState([10,148,5]);
+
   // useEffect(()=>{
   //   axios.get().then().catch(); /* 페이지를 실행 하자마자 ajax를 실행시키곡 싶다면 useEffect를 활용하면 된다. */
   // },[]); /* []는 useEffect 할 때 배웠듯이 최초 로드 시에만 실행되도록 해 주는 빈 값. */

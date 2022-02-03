@@ -9,6 +9,7 @@ import Detail from './Detail';
 import Product from './Product';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 
 function App() {
   let history = useHistory();
@@ -22,6 +23,7 @@ function App() {
   return (
     
     <div className="App">
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
       <NavBar />
       <Switch>
       <Route exact path="/">
@@ -75,7 +77,7 @@ function App() {
       </Route>
         
       
-      <Route exact path="/detail">
+      <Route path="/detail">
       <Row xs={2} md={3}>
           {
           flower.map((a,i)=>{
@@ -136,6 +138,7 @@ function App() {
         <div>새로 만든 Route입니다.</div>
       </Route>
       </Switch>
+      </BrowserRouter>
     </div>
   )
 }
@@ -148,8 +151,8 @@ function NavBar(){
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/detail">Detail</Nav.Link>
+            <Nav.Link href={process.env.PUBLIC_URL}>Home</Nav.Link>
+            <Nav.Link href="/release-shop/detail">Detail</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

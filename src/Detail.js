@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import {useHistory} from 'react-router-dom';
-import  {Card, Link, Row, Col} from 'react-bootstrap';
+import  {Card, Row, Col} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import './Detail.scss';
+import {stockContext} from './App.js';
 function Detail(props){
     let history = useHistory();
+    let stock = useContext(stockContext);
     return(
         <Col>
         <Card>
-          <Card.Link href={'/detail/'+props.i}><Card.Img variant="top" src={require('./flower'+(props.i)+'.jpg')} /></Card.Link>
+          <Link to={'/detail/'+props.i}><Card.Img variant="top" src={require('./flower'+(props.i)+'.jpg')} /></Link>
           <Card.Body>
             <Card.Title>{props.flower.title}</Card.Title>
             <Card.Text>

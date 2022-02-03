@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import  {Navbar,Container,Nav,NavDropdown,CardGroup, Card,Carousel, Accordion,Row} from 'react-bootstrap';
 import './App.css';
 import objectArray from './data.js';
@@ -10,20 +10,19 @@ import Product from './Product';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
-
+export let stockContext = React.createContext(); //createContext()를 이용해 변수를 만들면 이 변수는 특별한 '컴포넌트'가 된다. 다른 js에서 쓸 때는 꼭 export / import 해줘야 함.
 function App() {
   let history = useHistory();
   let [flower, changeFlower] = useState(objectArray);
   let [mainContent, changeMainContent] = useState(mainData);
   let [stock, changeStock] = useState([10,148,5]);
-
-  // useEffect(()=>{
+    // useEffect(()=>{
   //   axios.get().then().catch(); /* 페이지를 실행 하자마자 ajax를 실행시키곡 싶다면 useEffect를 활용하면 된다. */
   // },[]); /* []는 useEffect 할 때 배웠듯이 최초 로드 시에만 실행되도록 해 주는 빈 값. */
   return (
     
     <div className="App">
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      
       <NavBar />
       <Switch>
       <Route exact path="/">
@@ -77,15 +76,19 @@ function App() {
       </Route>
         
       
-      <Route path="/detail">
+      <Route exact path="/detail">
+      <stockContext.Provider value={stock}> {/* createContext()를 통해 만든 stockContext를 이용해서 props  없이도 하위 컴포넌트들로 값을 보낼 수 있다. */}
       <Row xs={2} md={3}>
           {
           flower.map((a,i)=>{
-              return <Detail flower={flower[i]} i={i} key={i} />
+              return(              
+                <Detail flower={flower[i]} i={i} key={i} />
+             
+              )
           }) 
           }
       </Row>
-      
+      </stockContext.Provider>
 
       <button className="baseBtn mgt20 mgb20" onClick={()=>{
           axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -123,9 +126,7 @@ function App() {
       </Route>
 
       <Route path="/detail/:id">
-
        <Product flower={flower} stock={stock} changeStock ={changeStock}/>
-
       </Route>
 
       <Route path="/:id">
@@ -138,7 +139,6 @@ function App() {
         <div>새로 만든 Route입니다.</div>
       </Route>
       </Switch>
-      </BrowserRouter>
     </div>
   )
 }
@@ -147,12 +147,12 @@ function NavBar(){
   return(
   <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Noctilucent</Navbar.Brand>
+        <Navbar.Brand to="#home">Noctilucent</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href={process.env.PUBLIC_URL}>Home</Nav.Link>
-            <Nav.Link href="/release-shop/detail">Detail</Nav.Link>
+            <Link to="/">Home</Link>
+            <Link to="/detail">Detail</Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

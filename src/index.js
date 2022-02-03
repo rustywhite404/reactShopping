@@ -18,7 +18,7 @@ BrowserRouter를 쓰려면 API 세팅만 잘 해두면 됨
 */
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

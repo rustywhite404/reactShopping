@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from 'react-router-dom';
-import  {Card,Button} from 'react-bootstrap';
+import  {Card,Button,Tab,Tabs} from 'react-bootstrap';
 import styled from 'styled-components';
 import './Product.scss';
 /* styled-components 라이브러리를 사용하면 컴포넌트를 만들 때 스타일을 미리 주입해서 만들 수 있다. */
@@ -72,6 +72,7 @@ function Product(props){
     //     // useEffect는 여러 개도 사용이 가능하고, 적은 순서대로 순차 실행된다.
     // });
 
+    let [clickTab, changeClickTab] = useState(0);
     return(
         <Card className="text-center">
         <div className="productImg" >
@@ -85,10 +86,27 @@ function Product(props){
             
 
             <Box>
-                <Card.Text>
-                    <Subject coloring={'dimgrey'}>{findProduct.content}</Subject>
-                    {/* 위에서 만들어놓은 props.coloring을 이런식으로 사용할 수 있다. */}                
-                </Card.Text>
+            <Tabs
+                defaultActiveKey="home"
+                transition={true}
+                id="noanim-tab-example"
+                className="mb-3"
+                >
+                <Tab eventKey="home" title="상세보기">
+                    <Card.Text>
+                        <Subject coloring={'dimgrey'}>{findProduct.content}</Subject>
+                        {/* 위에서 만들어놓은 props.coloring을 이런식으로 사용할 수 있다. */}                
+                    </Card.Text>
+                </Tab>
+                <Tab eventKey="profile" title="교환 및 환불">
+                    교환 및 환불은 불가능합니다. 
+                </Tab>
+                <Tab eventKey="contact" title="QNA" disabled>
+                    내용 3 
+                </Tab>
+            </Tabs>
+
+                
                 {inputData} 
                 <Info stock={props.stock} num={id}></Info>
                 {/*

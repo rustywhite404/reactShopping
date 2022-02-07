@@ -7,6 +7,7 @@ import mainData from './mainData.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail';
 import Product from './Product';
+import Cart from './Cart';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
@@ -128,6 +129,11 @@ function App() {
       <Route path="/detail/:id">
        <Product flower={flower} stock={stock} changeStock ={changeStock}/>
       </Route>
+
+      <Route path="/cart">
+        <Cart></Cart>
+      </Route>
+
 
       <Route path="/:id">
         {/* /:id는 URL 파라미터라고 하는데,

@@ -3,26 +3,49 @@ import {Table} from 'react-bootstrap';
 import {connect} from 'react-redux'; 
 function Cart(props){
     return(
-        <Table striped bordered hover>
-    <tr>
-      <th>#</th>
-      <th>상품명</th>
-      <th>수량</th>
-      <th>변경</th>
-      
-    </tr>
-    <tr>
-      <td>{props.realState[0].id}</td>
-      <td>{props.realState[0].name}</td>
-      <td>{props.realState[0].quan}</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td colSpan={2}>Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-    </Table>
+        <div>
+            <Table striped bordered hover>
+                <tr>
+                <th>#</th>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>변경</th>
+                </tr>
+                {/* redux를 쓴다면 state 데이터를 수정하고 싶을 때 어떻게 해야하는가?
+                    1. index.js에 reducer 함수를 만들고 거기에 데이터를 수정하는 법을 정의한다.
+                    2. 원하는 곳에서 dispatch() 라는 함수를 써서 reducer에게 수정해달라고 요청한다. 
+                    반드시 이렇게 데이터를 수정해야 한다(!안 그러면 redux 쓰는 이점이 없음)
+
+                    // ***reducer는 그냥 function으로 시작하는 흔히 보는 함수인데, 안에 1. state 초기값 / 2. state 데이터 수정방법이 잔뜩 들어있는 함수라고 생각하면 된다. 
+                */}
+
+                {props.realState.map((a,i)=>{
+                    return(
+                    <tr key={i}>
+                    <td>{a.id}</td>
+                    <td>{a.name}</td>
+                    <td>{a.quan}</td>
+                    <td>
+                        <button onClick={()=>{ props.dispatch({type:'수량증가'})}}> + </button>
+                        <button onClick={()=>{ props.dispatch({type:'수량감소'})}}> - </button>
+                    </td>
+                    {/* 데이터 수정방법을 정의한 후 이렇게 dispatch함수를 써서 reducer를 동작시킨다. 이렇게 하면 버튼을 누를 때 마다 '수량증가' 라고 작명해놓은 state 수정방법이 동작한다. */}
+                    </tr>
+                    )
+                })}
+            </Table>
+            {props.alertState ===true ?(
+                <div className="my-alert2">
+                    <p>지금 구매하시면 20% 할인!</p>
+                    <button onClick={()=>{props.dispatch({type:'팝업닫기'})}}>닫기</button>
+                </div>
+                ) : null
+            }
+            {/* 사실 이 팝업을 만들 때 쓴 것처럼 redux를 쓰면 안 된다. 이거 하나 만드는데 굳이 redux에 저장까지 할 필요가 없다.
+            이 state 데이터를 다른 컴포넌트에서 또 쓸 일이 없다면 그냥 Cart 안에서 useState()로 만들면 된다. 
+            반면, 여러 컴포넌트에서 공유하는 값은 redux store 안에 보관해야 함. 
+            */}
+        </div>
     )
 }
 
@@ -34,7 +57,8 @@ function Cart(props){
 
 function stateToProps(state){
     return{
-        realState : state 
+        realState : state.reducer,
+        alertState : state.reducer2
     }
 }
 

@@ -39,15 +39,30 @@ function reducer(state = DefaultState, action){
   // 함수를 만들때 실수 또는 의도적으로 파라미터 입력을 안 했을 때 기본으로 가질 파라미터를 부여하는 것.
   // 그냥 파라미터 선언할 때 =등호로 입력하면 쓸 수 있다. 
   
-  if(action.type ==='수량증가'){
+
+   if(action.type==='항목추가'){
+    let whereNo = state.findIndex( (a)=>{ return a.id === action.payload.id});
+    console.log("whereNo:"+whereNo);
+
+    if(whereNo >=0){
+      let copy = [...state];
+      copy[whereNo].quan++;
+      return copy; 
+    }else{
+      let copy = [...state];
+      copy.push(action.payload);
+      return copy; 
+    }
+    
+   }else if(action.type ==='수량증가'){
     // return 수량증가된새로운state 
     let copy = [...state];
-    copy[0].quan++;
+    copy[action.payload].quan++;
     return copy;
 
   }else if(action.type ==='수량감소'){
     let copy = [...state];
-    copy[0].quan--;
+    copy[action.payload].quan--;
     return copy;
   }else{
     return state 

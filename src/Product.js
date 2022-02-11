@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from 'react-router-dom';
 import  {Card,Button,Tab,Tabs} from 'react-bootstrap';
+import {connect} from 'react-redux'; 
 import styled from 'styled-components';
 import './Product.scss';
 /* styled-components 라이브러리를 사용하면 컴포넌트를 만들 때 스타일을 미리 주입해서 만들 수 있다. */
@@ -125,6 +126,14 @@ function Product(props){
                         </div>
                     ) : null
                 }
+                <Button onClick={()=>{ 
+                    props.dispatch({type:'항목추가',payload:{id:findProduct.id,name:findProduct.title,quan:1}});
+                    history.push('/cart');
+                    //history.push를 굳이 써 놓은 이유는 개발 단계에서 미리보기 시 페이지를 이동하면 페이지를 껐다 켠 것처럼 초기화가 되어서
+                    //추가한 데이터가 /cart에 안 보는 상태이기 때문에 데이터가 추가된 걸 확인해보기 위해 강제로 이동시킨 것. 
+                }} variant="primary">장바구니</Button>
+                {/* props.dispatch 사용하려면 맨 하단에 connect 해주는 거 잊지 말 것. 안 하면 에러남.
+                payload는 자유작명인데 관습적으로 저렇게 많이 쓴다고 함(화물이라는 뜻). 이 payload 항목에 redux store로 전달할 데이터를 넣는다. */}
             </Box>
         </Card.Body>
         <Card.Footer className="text-muted">{id} 2 days ago</Card.Footer>
@@ -139,4 +148,13 @@ function Info(props){
         <p>재고: {props.stock[props.num]}</p>
     )
 }
-export default Product
+
+function stateToProps(state){
+    return{
+        realState : state.reducer,
+        alertState : state.reducer2
+    }
+}
+
+
+export default connect(stateToProps)(Product)

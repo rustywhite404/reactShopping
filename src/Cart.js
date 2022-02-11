@@ -26,8 +26,8 @@ function Cart(props){
                     <td>{a.name}</td>
                     <td>{a.quan}</td>
                     <td>
-                        <button onClick={()=>{ props.dispatch({type:'수량증가'})}}> + </button>
-                        <button onClick={()=>{ props.dispatch({type:'수량감소'})}}> - </button>
+                        <button onClick={()=>{ props.dispatch({type:'수량증가', payload:a.id})}}> + </button>
+                        <button onClick={()=>{ props.dispatch({type:'수량감소', payload:a.id})}}> - </button>
                     </td>
                     {/* 데이터 수정방법을 정의한 후 이렇게 dispatch함수를 써서 reducer를 동작시킨다. 이렇게 하면 버튼을 누를 때 마다 '수량증가' 라고 작명해놓은 state 수정방법이 동작한다. */}
                     </tr>

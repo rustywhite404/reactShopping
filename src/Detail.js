@@ -7,10 +7,11 @@ import {stockContext} from './App.js';
 function Detail(props){
     let history = useHistory();
     let stock = useContext(stockContext);
+    let num = props.i * 1;
     return(
         <Col>
         <Card>
-          <Link to={'/detail/'+props.i}><Card.Img variant="top" src={require('./flower'+(props.i)+'.jpg')} /></Link>
+          <Link to={'/detail/'+(num+1)}><Card.Img variant="top" src={require('./flower'+(num+1)+'.jpg')} /></Link>
           <Card.Body>
             <Card.Title>{props.flower.title}</Card.Title>
             <Card.Text>

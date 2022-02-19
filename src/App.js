@@ -8,6 +8,7 @@ import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail';
 import Product from './Product';
 import Cart from './Cart';
+import IfEx from './IfEx';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
@@ -134,6 +135,10 @@ function App() {
         <Cart></Cart>
       </Route>
 
+      <Route path="/ifex">
+        <IfEx></IfEx>
+      </Route>
+
 
       <Route path="/:id">
         {/* /:id는 URL 파라미터라고 하는데,
@@ -160,6 +165,7 @@ function NavBar(){
             <Link to="/">Home</Link>
             <Link to="/detail">Detail</Link>
             <Link to="/cart">Cart</Link>
+            <Link to="/ifex">IfExample</Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
